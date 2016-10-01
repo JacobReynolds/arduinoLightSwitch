@@ -58,13 +58,13 @@ body {
 @media only screen and (max-width: 650px) {
 	.greenBtn {
 		display: block;
-		width: 100%;
+		width: calc(100% - 10px);
 		height: 100px;
 		margin: 5px;
 	}
 	.redBtn {
 		display: block;
-		width: 100%;
+		width: calc(100% - 10px);
 		height: 100px;
 		margin: 5px;
 	}
