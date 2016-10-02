@@ -1,8 +1,9 @@
+//On and off got switched, don't want to reflash the arduino
 $('#onSwitch').click(function () {
-	$.post('http://10.0.0.183/on');
+	$.post('http://10.0.0.183/off');
 })
 $('#offSwitch').click(function () {
-	$.post('http://10.0.0.183/off');
+	$.post('http://10.0.0.183/on');
 })
 $('#buzzHigh').click(function () {
 	$.post('http://10.0.0.183/buzzHigh');
