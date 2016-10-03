@@ -8,6 +8,9 @@ router.get('/', function (req, res) {
 	});
 });
 var exec = require('child_process').exec;
+
+/*These /on and /off endpoints work if the arduino is plugged in on the same server this process is running on.  That is not currently the situation.
+
 router.post('/on', function (req, res) {
 	var cmd = 'echo \'n\' > /dev/ttyACM0';
 	exec(cmd, function (error, stdout, stderr) {
@@ -29,5 +32,5 @@ router.post('/off', function (req, res) {
 		}
 	});
 })
-
+*/
 module.exports = router;
