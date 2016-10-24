@@ -1,36 +1,46 @@
 var express = require('express');
 var router = express.Router();
+var http = require('http');
+var querystring = require('querystring');
+var switchDomain = {
+	host: process.env.SWITCH_IP,
+	method: "POST",
+	headers: {
+		'Content-Type': 'application/x-www-form-urlencoded'
+	}
+};
 
 /* GET home page. */
-router.get('/', function (req, res) {
+router.get('/' + process.env.HIDDEN_URL_BAD_SECURITY, function (req, res) {
 	res.render('index', {
-		title: 'Express'
+		secretURL: process.env.HIDDEN_URL_BAD_SECURITY
 	});
 });
 var exec = require('child_process').exec;
 
-/*These /on and /off endpoints work if the arduino is plugged in on the same server this process is running on.  That is not currently the situation.
-
-router.post('/on', function (req, res) {
-	var cmd = 'echo \'n\' > /dev/ttyACM0';
-	exec(cmd, function (error, stdout, stderr) {
-		if (error) {
-			res.send("ERROR");
-		} else {
-			res.send("OK");
-		}
-	});
+router.post("/" + process.env.HIDDEN_URL_BAD_SECURITY + '/on', function (req, res) {
+	var postData = {
+		apiKey: process.env.SWITCH_API_KEY,
+	}
+	switchDomain.path = '/on';
+	postData = querystring.stringify(postData);
+	switchDomain.headers['Content-Length'] = Buffer.byteLength(postData);
+	var req = http.request(switchDomain, null);
+	req.write(postData);
+	req.end();
+	res.redirect('/' + process.env.HIDDEN_URL_BAD_SECURITY);
+})
+router.post("/" + process.env.HIDDEN_URL_BAD_SECURITY + '/off', function (req, res) {
+	var postData = {
+		apiKey: process.env.SWITCH_API_KEY,
+	}
+	switchDomain.path = '/off';
+	postData = querystring.stringify(postData);
+	switchDomain.headers['Content-Length'] = Buffer.byteLength(postData);
+	var req = http.request(switchDomain, null);
+	req.write(postData);
+	req.end();
+	res.redirect('/' + process.env.HIDDEN_URL_BAD_SECURITY);
 })
 
-router.post('/off', function (req, res) {
-	var cmd = 'echo \'f\' > /dev/ttyACM0';
-	exec(cmd, function (error, stdout, stderr) {
-		if (error) {
-			res.send("ERROR");
-		} else {
-			res.send("OK");
-		}
-	});
-})
-*/
 module.exports = router;

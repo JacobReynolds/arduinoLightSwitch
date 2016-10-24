@@ -4,8 +4,8 @@
 #include <ESP8266mDNS.h>
 #include <Servo.h>
 Servo myServo;
-const char* ssid = "************";
-const char* password = "***************";
+const char* ssid = "********";
+const char* password = "********";
 const int SERVO_PIN = 16;
 ESP8266WebServer server(80);
 const int piezoHigh = 0;
@@ -69,19 +69,28 @@ void setup(void){
   });
 
   server.on("/on", [](){
+    if (server.argName(0) == "apiKey" && server.arg(0) == "***") {
     myServo.attach(SERVO_PIN);
-    myServo.write(0);
+    myServo.write(90);
     server.send(200, "text/plain", "OK: on");
     delay(500);
     myServo.detach();
+    } else {
+    server.send(404, "text/plain", "Error: on");
+    }
+    
   });
 
   server.on("/off", [](){
+    if (server.argName(0) == "apiKey" && server.arg(0) == "***") {
     myServo.attach(SERVO_PIN);
-    myServo.write(90);
+    myServo.write(0);
     server.send(200, "text/plain", "OK: off");
     delay(500);
     myServo.detach();
+    } else {
+    server.send(404, "text/plain", "Error: off");
+    }
   });
 
   server.onNotFound(handleNotFound);

@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  button#onSwitch.greenBtn Turn light on
-  button#offSwitch.redBtn Turn light off
-  script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js')
-  script(src='javascripts/index.js')
+	form(action="#{secretURL}/on", method="post")
+		button#onSwitch.greenBtn Turn light on
+	form(action="#{secretURL}/off", method="post")
+		button#offSwitch.redBtn Turn light off
